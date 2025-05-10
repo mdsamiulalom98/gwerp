@@ -15,7 +15,7 @@ class DesignationController extends Controller
          $this->middleware('permission:designation-edit', ['only' => ['edit','update']]);
          $this->middleware('permission:designation-delete', ['only' => ['destroy']]);
     }
-    
+
     public function index(Request $request)
     {
         $data = Designation::orderBy('id','DESC');
@@ -51,14 +51,14 @@ class DesignationController extends Controller
             ->rawColumns(['status','action'])
             ->toJson();
         }
-        
+
         return view('backEnd.designation.index');
     }
-    
+
     public function create(){
         return view('backEnd.designation.create');
     }
-    
+
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -69,13 +69,13 @@ class DesignationController extends Controller
         Toastr::success('Success','Data store successfully');
         return redirect()->route('designations.index');
     }
-    
+
     public function edit($id)
     {
         $edit_data = Designation::find($id);
         return view('backEnd.designation.edit',compact('edit_data'));
     }
-    
+
     public function update(Request $request)
     {
         $this->validate($request, [

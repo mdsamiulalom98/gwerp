@@ -2,29 +2,40 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\RoleController;
-use App\Http\Controllers\Admin\PermissionController;
-use App\Http\Controllers\Admin\SettingController;
-use App\Http\Controllers\Admin\CompanyController;
+
+use App\Http\Controllers\Admin\AllowanceTypeController;
+use App\Http\Controllers\Admin\AwardTypeController;
 use App\Http\Controllers\Admin\BranchController;
+use App\Http\Controllers\Admin\CompetenceController;
+use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\DesignationController;
-use App\Http\Controllers\Admin\AllowanceTypeController;
-use App\Http\Controllers\Admin\LoanOptionController;
 use App\Http\Controllers\Admin\DeductionOptionController;
 use App\Http\Controllers\Admin\DocumentTypeController;
-use App\Http\Controllers\Admin\PayslipTypeController;
-use App\Http\Controllers\Admin\LeaveTypeController;
-use App\Http\Controllers\Admin\AwardTypeController;
-use App\Http\Controllers\Admin\TerminationTypeController;
-use App\Http\Controllers\Admin\PerformanceTypeController;
-use App\Http\Controllers\Admin\CompetenceController;
 use App\Http\Controllers\Admin\GoalTypeController;
+use App\Http\Controllers\Admin\LoanOptionController;
+use App\Http\Controllers\Admin\LeaveController;
+use App\Http\Controllers\Admin\LeaveTypeController;
+use App\Http\Controllers\Admin\PayslipTypeController;
+use App\Http\Controllers\Admin\PerformanceTypeController;
+use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\TerminationTypeController;
 use App\Http\Controllers\Admin\TrainingTypeController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\EmployeeController;
+use App\Http\Controllers\Admin\CompanyPolicyController;
+use App\Http\Controllers\Admin\DocumentController;
+use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\Admin\AwardController;
+use App\Http\Controllers\Admin\TransferController;
+use App\Http\Controllers\Admin\ResignationController;
+use App\Http\Controllers\Admin\TripController;
 
 Auth::routes();
 
+Route::get('ajax-employee-branch', [EmployeeController::class, 'getBranch']);
 // auth route
 Route::group(['namespace' => 'Admin', 'middleware' => ['auth'], 'prefix' => 'admin'], function () {
 
@@ -139,6 +150,15 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth'], 'prefix' => 'adm
     Route::post('leavetype/inactive', [LeaveTypeController::class, 'inactive'])->name('leavetypes.inactive');
     Route::post('leavetype/active', [LeaveTypeController::class, 'active'])->name('leavetypes.active');
 
+    // leave
+    Route::get('leave/manage', [LeaveController::class, 'index'])->name('leaves.index');
+    Route::get('leave/create', [LeaveController::class, 'create'])->name('leaves.create');
+    Route::post('leave/save', [LeaveController::class, 'store'])->name('leaves.store');
+    Route::get('leave/{id}/edit', [LeaveController::class, 'edit'])->name('leaves.edit');
+    Route::get('leave/{id}/show', [LeaveController::class, 'show'])->name('leaves.show');
+    Route::post('leave/update', [LeaveController::class, 'update'])->name('leaves.update');
+    Route::post('leave/destroy', [LeaveController::class, 'destroy'])->name('leaves.destroy');
+
     Route::get('awardtype/manage', [AwardTypeController::class, 'index'])->name('awardtypes.index');
     Route::get('awardtype/create', [AwardTypeController::class, 'create'])->name('awardtypes.create');
     Route::post('awardtype/save', [AwardTypeController::class, 'store'])->name('awardtypes.store');
@@ -191,4 +211,86 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth'], 'prefix' => 'adm
     // setting
     Route::get('general-setting/manage', [SettingController::class, 'edit'])->name('settings.edit');
     Route::post('general-setting/update', [SettingController::class, 'update'])->name('settings.update');
+
+    // employee
+    Route::get('employee/manage', [EmployeeController::class, 'index'])->name('employees.index');
+    Route::get('employee/create', [EmployeeController::class, 'create'])->name('employees.create');
+    Route::post('employee/save', [EmployeeController::class, 'store'])->name('employees.store');
+    Route::get('employee/{id}/edit', [EmployeeController::class, 'edit'])->name('employees.edit');
+    Route::post('employee/update', [EmployeeController::class, 'update'])->name('employees.update');
+    Route::get('employee/{id}/show', [EmployeeController::class, 'show'])->name('employees.show');
+    Route::post('employee/inactive', [EmployeeController::class, 'inactive'])->name('employees.inactive');
+    Route::post('employee/active', [EmployeeController::class, 'active'])->name('employees.active');
+    Route::post('employee/destroy', [EmployeeController::class, 'destroy'])->name('employees.destroy');
+
+    // company policies
+    Route::get('company-policy/manage', [CompanyPolicyController::class, 'index'])->name('companypolicies.index');
+    Route::get('company-policy/create', [CompanyPolicyController::class, 'create'])->name('companypolicies.create');
+    Route::post('company-policy/save', [CompanyPolicyController::class, 'store'])->name('companypolicies.store');
+    Route::get('company-policy/{id}/edit', [CompanyPolicyController::class, 'edit'])->name('companypolicies.edit');
+    Route::post('company-policy/update', [CompanyPolicyController::class, 'update'])->name('companypolicies.update');
+    Route::post('company-policy/inactive', [CompanyPolicyController::class, 'inactive'])->name('companypolicies.inactive');
+    Route::post('company-policy/active', [CompanyPolicyController::class, 'active'])->name('companypolicies.active');
+    Route::post('company-policy/destroy', [CompanyPolicyController::class, 'destroy'])->name('companypolicies.destroy');
+
+    // document
+    Route::get('document/manage', [DocumentController::class, 'index'])->name('documents.index');
+    Route::get('document/create', [DocumentController::class, 'create'])->name('documents.create');
+    Route::post('document/save', [DocumentController::class, 'store'])->name('documents.store');
+    Route::get('document/{id}/edit', [DocumentController::class, 'edit'])->name('documents.edit');
+    Route::post('document/update', [DocumentController::class, 'update'])->name('documents.update');
+    Route::post('document/inactive', [DocumentController::class, 'inactive'])->name('documents.inactive');
+    Route::post('document/active', [DocumentController::class, 'active'])->name('documents.active');
+    Route::post('document/destroy', [DocumentController::class, 'destroy'])->name('documents.destroy');
+
+    // event
+    Route::get('event/manage', [EventController::class, 'index'])->name('events.index');
+    Route::get('event/create', [EventController::class, 'create'])->name('events.create');
+    Route::post('event/save', [EventController::class, 'store'])->name('events.store');
+    Route::get('event/{id}/edit', [EventController::class, 'edit'])->name('events.edit');
+    Route::post('event/update', [EventController::class, 'update'])->name('events.update');
+    Route::post('event/inactive', [EventController::class, 'inactive'])->name('events.inactive');
+    Route::post('event/active', [EventController::class, 'active'])->name('events.active');
+    Route::post('event/destroy', [EventController::class, 'destroy'])->name('events.destroy');
+
+    // award
+    Route::get('award/manage', [AwardController::class, 'index'])->name('awards.index');
+    Route::get('award/create', [AwardController::class, 'create'])->name('awards.create');
+    Route::post('award/save', [AwardController::class, 'store'])->name('awards.store');
+    Route::get('award/{id}/edit', [AwardController::class, 'edit'])->name('awards.edit');
+    Route::post('award/update', [AwardController::class, 'update'])->name('awards.update');
+    Route::post('award/inactive', [AwardController::class, 'inactive'])->name('awards.inactive');
+    Route::post('award/active', [AwardController::class, 'active'])->name('awards.active');
+    Route::post('award/destroy', [AwardController::class, 'destroy'])->name('awards.destroy');
+
+    // transfer
+    Route::get('transfer/manage', [TransferController::class, 'index'])->name('transfers.index');
+    Route::get('transfer/create', [TransferController::class, 'create'])->name('transfers.create');
+    Route::post('transfer/save', [TransferController::class, 'store'])->name('transfers.store');
+    Route::get('transfer/{id}/edit', [TransferController::class, 'edit'])->name('transfers.edit');
+    Route::post('transfer/update', [TransferController::class, 'update'])->name('transfers.update');
+    Route::post('transfer/inactive', [TransferController::class, 'inactive'])->name('transfers.inactive');
+    Route::post('transfer/active', [TransferController::class, 'active'])->name('transfers.active');
+    Route::post('transfer/destroy', [TransferController::class, 'destroy'])->name('transfers.destroy');
+    
+    // resignation
+    Route::get('resignation/manage', [ResignationController::class, 'index'])->name('resignations.index');
+    Route::get('resignation/create', [ResignationController::class, 'create'])->name('resignations.create');
+    Route::post('resignation/save', [ResignationController::class, 'store'])->name('resignations.store');
+    Route::get('resignation/{id}/edit', [ResignationController::class, 'edit'])->name('resignations.edit');
+    Route::post('resignation/update', [ResignationController::class, 'update'])->name('resignations.update');
+    Route::post('resignation/inactive', [ResignationController::class, 'inactive'])->name('resignations.inactive');
+    Route::post('resignation/active', [ResignationController::class, 'active'])->name('resignations.active');
+    Route::post('resignation/destroy', [ResignationController::class, 'destroy'])->name('resignations.destroy');
+    
+    // trip
+    Route::get('trip/manage', [TripController::class, 'index'])->name('trips.index');
+    Route::get('trip/create', [TripController::class, 'create'])->name('trips.create');
+    Route::post('trip/save', [TripController::class, 'store'])->name('trips.store');
+    Route::get('trip/{id}/edit', [TripController::class, 'edit'])->name('trips.edit');
+    Route::post('trip/update', [TripController::class, 'update'])->name('trips.update');
+    Route::post('trip/inactive', [TripController::class, 'inactive'])->name('trips.inactive');
+    Route::post('trip/active', [TripController::class, 'active'])->name('trips.active');
+    Route::post('trip/destroy', [TripController::class, 'destroy'])->name('trips.destroy');
+
 });

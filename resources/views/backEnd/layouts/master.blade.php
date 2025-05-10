@@ -18,6 +18,7 @@
     @stack('css')
     <link rel="stylesheet" href="{{ asset('public/backEnd/assets/') }}/css/select2.min.css">
     <link rel="stylesheet" href="{{ asset('public/backEnd/assets/') }}/css/toastr.min.css">
+    <link rel="stylesheet" href="{{ asset('public/backEnd/assets/') }}/css/flatpickr.min.css">
     <link rel="stylesheet" href="{{ asset('public/backEnd/assets/') }}/css/style.css">
     <link rel="stylesheet" href="{{ asset('public/backEnd/assets/') }}/css/responsive.css">
     <link href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
@@ -80,8 +81,58 @@
                         </a>
                         <ul class="wsit-submenu">
                             <li class="wsit-item">
-                                <a href="{{ route('companies.index') }}" class="wsit-link">
+                                <a href="{{ route('employees.index') }}" class="wsit-link">
                                     <span class="wsit-text"><i class="ti ti-circle-dot"></i>Employee</span>
+                                </a>
+                            </li>
+                            <li class="wsit-item">
+                                <a href="{{ route('leaves.index') }}" class="wsit-link">
+                                    <span class="wsit-text"><i class="ti ti-circle-dot"></i>Manage Leave</span>
+                                </a>
+                            </li>
+                            <li class="wsit-item">
+                                <a href="{{route('awards.index')}}" class="wsit-link">
+                                    <span class="wsit-text"><i class="ti ti-circle-dot"></i>HRM Admin</span>
+                                    <span class="wsit-arrow">
+                                        <i data-feather="chevron-right"></i>
+                                    </span>
+                                </a>
+                                <ul class="wsit-submenu child">
+                                    <li class="wsit-item">
+                                        <a href="{{route('awards.index')}}" class="wsit-link">
+                                            <span class="wsit-text"><i class="ti ti-circle-dot"></i> Award</span>
+                                        </a>
+                                    </li>
+                                    <li class="wsit-item">
+                                        <a href="{{route('transfers.index')}}" class="wsit-link">
+                                            <span class="wsit-text"><i class="ti ti-circle-dot"></i> Transfer</span>
+                                        </a>
+                                    </li>
+                                    <li class="wsit-item">
+                                        <a href="{{route('resignations.index')}}" class="wsit-link">
+                                            <span class="wsit-text"><i class="ti ti-circle-dot"></i> Resignation</span>
+                                        </a>
+                                    </li>
+                                    <li class="wsit-item">
+                                        <a href="{{route('trips.index')}}" class="wsit-link">
+                                            <span class="wsit-text"><i class="ti ti-circle-dot"></i> Trip</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="wsit-item">
+                                <a href="{{ route('events.index') }}" class="wsit-link">
+                                    <span class="wsit-text"><i class="ti ti-circle-dot"></i>Event</span>
+                                </a>
+                            </li>
+                            <li class="wsit-item">
+                                <a href="{{ route('documents.index') }}" class="wsit-link">
+                                    <span class="wsit-text"><i class="ti ti-circle-dot"></i>Document</span>
+                                </a>
+                            </li>
+                            <li class="wsit-item">
+                                <a href="{{ route('companypolicies.index') }}" class="wsit-link">
+                                    <span class="wsit-text"><i class="ti ti-circle-dot"></i>Company Policy</span>
                                 </a>
                             </li>
                             <li class="wsit-item">
@@ -208,6 +259,7 @@
     {!! Toastr::message() !!}
     <script src="{{ asset('public/backEnd/assets/js/parsley.min.js') }}"></script>
     <script src="{{ asset('public/backEnd/assets/js/particles-active.js') }}"></script>
+    <script src="{{ asset('public/backEnd/assets/js/flatpickr.js') }}"></script>
     <script>
         $(document).on('click', '.delete_btn', function(event) {
             var form = $(this).closest("form");
@@ -325,6 +377,8 @@
             $('.page-content').scrollSpy({
                 target: $('.scroll_menu a')
             }).scroll();
+
+            $(".flatpickr").flatpickr();
 
         });
     </script>
