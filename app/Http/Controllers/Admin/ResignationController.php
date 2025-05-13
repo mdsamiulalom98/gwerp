@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Brian2694\Toastr\Facades\Toastr;
 use App\Models\Employee;
 use App\Models\Resignation;
+use Carbon\Carbon;
+
 class ResignationController extends Controller
 {
     public function __construct()
@@ -16,15 +19,20 @@ class ResignationController extends Controller
         $this->middleware('permission:resignation-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:resignation-delete', ['only' => ['destroy']]);
     }
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         $data = Resignation::orderBy('id', 'asc');
         if ($request->ajax()) {
             return datatables()->of($data)
                 ->addColumn('employee', function ($row) {
                     return $row->employee->name ?? 'N/A';
                 })
+                ->addColumn('date', function ($row) {
+                    return $row->resign_date ? Carbon::parse($row->resign_date)->format('Y-m-d') : 'N/A';
+                })
+
                 ->addColumn('action', function ($row) {
-                    if($row->status == 1) {
+                    if ($row->status == 1) {
                         $statusBtn = '<form method="POST" action="' . route('resignations.inactive') . '" class="status_form" style="display:inline;">
                                       ' . csrf_field() . '
                                       <input type="hidden" name="id" value="' . $row->id . '">
@@ -55,15 +63,16 @@ class ResignationController extends Controller
                     }
                     return $statusBtn;
                 })
-                ->rawColumns(['status', 'action']) 
+                ->rawColumns(['status', 'action'])
                 ->toJson();
         }
         return view('backEnd.resignation.index');
     }
 
-    public function create(){
-        $employees = Employee::select('id','employee_id','name')->get();
-        return view('backEnd.resignation.create',compact('employees'));
+    public function create()
+    {
+        $employees = Employee::select('id', 'employee_id', 'name')->get();
+        return view('backEnd.resignation.create', compact('employees'));
     }
 
     public function store(Request $request)
@@ -75,13 +84,15 @@ class ResignationController extends Controller
         return redirect()->route('resignations.index');
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $edit_data = Resignation::findOrFail($id);
-        $employees = Employee::select('id','employee_id','name')->get();
-        return view('backEnd.resignation.edit', compact('edit_data','employees'));
+        $employees = Employee::select('id', 'employee_id', 'name')->get();
+        return view('backEnd.resignation.edit', compact('edit_data', 'employees'));
     }
 
-    public function update(Request $request){
+    public function update(Request $request)
+    {
         $companypolicy = Resignation::findOrFail($request->id);
         $input = $request->all();
         $input['status'] = $request->status ?? 0;
@@ -107,7 +118,8 @@ class ResignationController extends Controller
         return redirect()->back();
     }
 
-    public function destroy($id){
+    public function destroy(Request $request)
+    {
         $delete_data = Resignation::find($request->id);
         File::delete($delete_data->image);
         Toastr::success('Success', 'Data delete successfully');

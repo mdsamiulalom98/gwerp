@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('trips', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::create('terminations', function (Blueprint $table) {
+            $table->id();
             $table->unsignedInteger('employee_id')->nullable();
-            $table->datetime('start_date');
-            $table->datetime('end_date');
-            $table->string('purpose_of_visit')->length(255);
-            $table->string('place_of_visit')->length(255);
-            $table->string('description')->length(255)->nullable();
+            $table->unsignedInteger('termination_type')->nullable();
+            $table->date('notice_date')->nullable();
+            $table->date('termination_date')->nullable();
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('trips');
+        Schema::dropIfExists('terminations');
     }
 };

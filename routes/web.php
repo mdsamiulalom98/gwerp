@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\Admin\AllowanceTypeController;
+use App\Http\Controllers\Admin\AnnouncementController;
 use App\Http\Controllers\Admin\AwardTypeController;
 use App\Http\Controllers\Admin\BranchController;
 use App\Http\Controllers\Admin\CompetenceController;
@@ -29,9 +30,19 @@ use App\Http\Controllers\Admin\CompanyPolicyController;
 use App\Http\Controllers\Admin\DocumentController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\AwardController;
+use App\Http\Controllers\Admin\ComplaintController;
+use App\Http\Controllers\Admin\HolidayController;
+use App\Http\Controllers\Admin\PromotionController;
 use App\Http\Controllers\Admin\TransferController;
 use App\Http\Controllers\Admin\ResignationController;
+use App\Http\Controllers\Admin\TerminationController;
 use App\Http\Controllers\Admin\TripController;
+use App\Http\Controllers\Admin\WarningController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\SupplierController;
+use App\Http\Controllers\Admin\SubcategoryController;
+use App\Http\Controllers\Admin\WarehouseController;
+use App\Http\Controllers\Admin\BrandController;
 
 Auth::routes();
 
@@ -272,7 +283,7 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth'], 'prefix' => 'adm
     Route::post('transfer/inactive', [TransferController::class, 'inactive'])->name('transfers.inactive');
     Route::post('transfer/active', [TransferController::class, 'active'])->name('transfers.active');
     Route::post('transfer/destroy', [TransferController::class, 'destroy'])->name('transfers.destroy');
-    
+
     // resignation
     Route::get('resignation/manage', [ResignationController::class, 'index'])->name('resignations.index');
     Route::get('resignation/create', [ResignationController::class, 'create'])->name('resignations.create');
@@ -282,7 +293,7 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth'], 'prefix' => 'adm
     Route::post('resignation/inactive', [ResignationController::class, 'inactive'])->name('resignations.inactive');
     Route::post('resignation/active', [ResignationController::class, 'active'])->name('resignations.active');
     Route::post('resignation/destroy', [ResignationController::class, 'destroy'])->name('resignations.destroy');
-    
+
     // trip
     Route::get('trip/manage', [TripController::class, 'index'])->name('trips.index');
     Route::get('trip/create', [TripController::class, 'create'])->name('trips.create');
@@ -293,4 +304,108 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth'], 'prefix' => 'adm
     Route::post('trip/active', [TripController::class, 'active'])->name('trips.active');
     Route::post('trip/destroy', [TripController::class, 'destroy'])->name('trips.destroy');
 
+    // promotions
+    Route::get('promotion/manage', [PromotionController::class, 'index'])->name('promotions.index');
+    Route::get('promotion/create', [PromotionController::class, 'create'])->name('promotions.create');
+    Route::post('promotion/save', [PromotionController::class, 'store'])->name('promotions.store');
+    Route::get('promotion/{id}/edit', [PromotionController::class, 'edit'])->name('promotions.edit');
+    Route::post('promotion/update', [PromotionController::class, 'update'])->name('promotions.update');
+    Route::post('promotion/inactive', [PromotionController::class, 'inactive'])->name('promotions.inactive');
+    Route::post('promotion/active', [PromotionController::class, 'active'])->name('promotions.active');
+    Route::post('promotion/destroy', [PromotionController::class, 'destroy'])->name('promotions.destroy');
+
+    // complaints
+    Route::get('complaint/manage', [ComplaintController::class, 'index'])->name('complaints.index');
+    Route::get('complaint/create', [ComplaintController::class, 'create'])->name('complaints.create');
+    Route::post('complaint/save', [ComplaintController::class, 'store'])->name('complaints.store');
+    Route::get('complaint/{id}/edit', [ComplaintController::class, 'edit'])->name('complaints.edit');
+    Route::post('complaint/update', [ComplaintController::class, 'update'])->name('complaints.update');
+    Route::post('complaint/inactive', [ComplaintController::class, 'inactive'])->name('complaints.inactive');
+    Route::post('complaint/active', [ComplaintController::class, 'active'])->name('complaints.active');
+    Route::post('complaint/destroy', [ComplaintController::class, 'destroy'])->name('complaints.destroy');
+
+    // warnings
+    Route::get('warning/manage', [WarningController::class, 'index'])->name('warnings.index');
+    Route::get('warning/create', [WarningController::class, 'create'])->name('warnings.create');
+    Route::post('warning/save', [WarningController::class, 'store'])->name('warnings.store');
+    Route::get('warning/{id}/edit', [WarningController::class, 'edit'])->name('warnings.edit');
+    Route::post('warning/update', [WarningController::class, 'update'])->name('warnings.update');
+    Route::post('warning/inactive', [WarningController::class, 'inactive'])->name('warnings.inactive');
+    Route::post('warning/active', [WarningController::class, 'active'])->name('warnings.active');
+    Route::post('warning/destroy', [WarningController::class, 'destroy'])->name('warnings.destroy');
+
+    // terminations
+    Route::get('termination/manage', [TerminationController::class, 'index'])->name('terminations.index');
+    Route::get('termination/create', [TerminationController::class, 'create'])->name('terminations.create');
+    Route::post('termination/save', [TerminationController::class, 'store'])->name('terminations.store');
+    Route::get('termination/{id}/edit', [TerminationController::class, 'edit'])->name('terminations.edit');
+    Route::post('termination/update', [TerminationController::class, 'update'])->name('terminations.update');
+    Route::post('termination/inactive', [TerminationController::class, 'inactive'])->name('terminations.inactive');
+    Route::post('termination/active', [TerminationController::class, 'active'])->name('terminations.active');
+    Route::post('termination/destroy', [TerminationController::class, 'destroy'])->name('terminations.destroy');
+
+    // announcements
+    Route::get('announcement/manage', [AnnouncementController::class, 'index'])->name('announcements.index');
+    Route::get('announcement/create', [AnnouncementController::class, 'create'])->name('announcements.create');
+    Route::post('announcement/save', [AnnouncementController::class, 'store'])->name('announcements.store');
+    Route::get('announcement/{id}/edit', [AnnouncementController::class, 'edit'])->name('announcements.edit');
+    Route::post('announcement/update', [AnnouncementController::class, 'update'])->name('announcements.update');
+    Route::post('announcement/inactive', [AnnouncementController::class, 'inactive'])->name('announcements.inactive');
+    Route::post('announcement/active', [AnnouncementController::class, 'active'])->name('announcements.active');
+    Route::post('announcement/destroy', [AnnouncementController::class, 'destroy'])->name('announcements.destroy');
+
+    // holidays
+    Route::get('holiday/manage', [HolidayController::class, 'index'])->name('holidays.index');
+    Route::get('holiday/create', [HolidayController::class, 'create'])->name('holidays.create');
+    Route::post('holiday/save', [HolidayController::class, 'store'])->name('holidays.store');
+    Route::get('holiday/{id}/edit', [HolidayController::class, 'edit'])->name('holidays.edit');
+    Route::post('holiday/update', [HolidayController::class, 'update'])->name('holidays.update');
+    Route::post('holiday/inactive', [HolidayController::class, 'inactive'])->name('holidays.inactive');
+    Route::post('holiday/active', [HolidayController::class, 'active'])->name('holidays.active');
+    Route::post('holiday/destroy', [HolidayController::class, 'destroy'])->name('holidays.destroy');
+
+    // categories
+    Route::get('category/manage', [CategoryController::class, 'index'])->name('categories.index');
+    Route::get('category/create', [CategoryController::class, 'create'])->name('categories.create');
+    Route::post('category/save', [CategoryController::class, 'store'])->name('categories.store');
+    Route::get('category/{id}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
+    Route::post('category/update', [CategoryController::class, 'update'])->name('categories.update');
+    Route::post('category/inactive', [CategoryController::class, 'inactive'])->name('categories.inactive');
+    Route::post('category/active', [CategoryController::class, 'active'])->name('categories.active');
+
+    // subcategories
+    Route::get('subcategory/manage', [SubcategoryController::class, 'index'])->name('subcategories.index');
+    Route::get('subcategory/create', [SubcategoryController::class, 'create'])->name('subcategories.create');
+    Route::post('subcategory/save', [SubcategoryController::class, 'store'])->name('subcategories.store');
+    Route::get('subcategory/{id}/edit', [SubcategoryController::class, 'edit'])->name('subcategories.edit');
+    Route::post('subcategory/update', [SubcategoryController::class, 'update'])->name('subcategories.update');
+    Route::post('subcategory/inactive', [SubcategoryController::class, 'inactive'])->name('subcategories.inactive');
+    Route::post('subcategory/active', [SubcategoryController::class, 'active'])->name('subcategories.active');
+
+    // suppliers
+    Route::get('supplier/manage', [SupplierController::class, 'index'])->name('suppliers.index');
+    Route::get('supplier/create', [SupplierController::class, 'create'])->name('suppliers.create');
+    Route::post('supplier/save', [SupplierController::class, 'store'])->name('suppliers.store');
+    Route::get('supplier/{id}/edit', [SupplierController::class, 'edit'])->name('suppliers.edit');
+    Route::post('supplier/update', [SupplierController::class, 'update'])->name('suppliers.update');
+    Route::post('supplier/inactive', [SupplierController::class, 'inactive'])->name('suppliers.inactive');
+    Route::post('supplier/active', [SupplierController::class, 'active'])->name('suppliers.active');
+
+    // warehouses
+    Route::get('warehouse/manage', [WarehouseController::class, 'index'])->name('warehouses.index');
+    Route::get('warehouse/create', [WarehouseController::class, 'create'])->name('warehouses.create');
+    Route::post('warehouse/save', [WarehouseController::class, 'store'])->name('warehouses.store');
+    Route::get('warehouse/{id}/edit', [WarehouseController::class, 'edit'])->name('warehouses.edit');
+    Route::post('warehouse/update', [WarehouseController::class, 'update'])->name('warehouses.update');
+    Route::post('warehouse/inactive', [WarehouseController::class, 'inactive'])->name('warehouses.inactive');
+    Route::post('warehouse/active', [WarehouseController::class, 'active'])->name('warehouses.active');
+
+    // brands
+    Route::get('brand/manage', [BrandController::class, 'index'])->name('brands.index');
+    Route::get('brand/create', [BrandController::class, 'create'])->name('brands.create');
+    Route::post('brand/save', [BrandController::class, 'store'])->name('brands.store');
+    Route::get('brand/{id}/edit', [BrandController::class, 'edit'])->name('brands.edit');
+    Route::post('brand/update', [BrandController::class, 'update'])->name('brands.update');
+    Route::post('brand/inactive', [BrandController::class, 'inactive'])->name('brands.inactive');
+    Route::post('brand/active', [BrandController::class, 'active'])->name('brands.active');
 });

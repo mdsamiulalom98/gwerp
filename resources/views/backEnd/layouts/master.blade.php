@@ -118,6 +118,36 @@
                                             <span class="wsit-text"><i class="ti ti-circle-dot"></i> Trip</span>
                                         </a>
                                     </li>
+                                    <li class="wsit-item">
+                                        <a href="{{route('promotions.index')}}" class="wsit-link">
+                                            <span class="wsit-text"><i class="ti ti-circle-dot"></i> Promotion</span>
+                                        </a>
+                                    </li>
+                                    <li class="wsit-item">
+                                        <a href="{{route('complaints.index')}}" class="wsit-link">
+                                            <span class="wsit-text"><i class="ti ti-circle-dot"></i> Complaint</span>
+                                        </a>
+                                    </li>
+                                    <li class="wsit-item">
+                                        <a href="{{route('warnings.index')}}" class="wsit-link">
+                                            <span class="wsit-text"><i class="ti ti-circle-dot"></i> Warning</span>
+                                        </a>
+                                    </li>
+                                    <li class="wsit-item">
+                                        <a href="{{route('terminations.index')}}" class="wsit-link">
+                                            <span class="wsit-text"><i class="ti ti-circle-dot"></i> Termination</span>
+                                        </a>
+                                    </li>
+                                    <li class="wsit-item">
+                                        <a href="{{route('announcements.index')}}" class="wsit-link">
+                                            <span class="wsit-text"><i class="ti ti-circle-dot"></i> Announcement</span>
+                                        </a>
+                                    </li>
+                                    <li class="wsit-item">
+                                        <a href="{{route('holidays.index')}}" class="wsit-link">
+                                            <span class="wsit-text"><i class="ti ti-circle-dot"></i> Holiday</span>
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="wsit-item">
@@ -138,6 +168,40 @@
                             <li class="wsit-item">
                                 <a href="{{ route('companies.index') }}" class="wsit-link">
                                     <span class="wsit-text"><i class="ti ti-circle-dot"></i>System Setup</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="wsit-item">
+                        <a href="" class="wsit-link">
+                            <span class="wsit-icon"><i class="ti ti-building-warehouse"></i> </span>
+                            <span class="wsit-text">Inventory</span>
+                            <span class="wsit-arrow"><i data-feather="chevron-right"></i></span>
+                        </a>
+                        <ul class="wsit-submenu">
+                            <li class="wsit-item">
+                                <a href="{{ route('categories.index') }}" class="wsit-link">
+                                    <span class="wsit-text"><i class="ti ti-circle-dot"></i>Category</span>
+                                </a>
+                            </li>
+                            <li class="wsit-item">
+                                <a href="{{ route('subcategories.index') }}" class="wsit-link">
+                                    <span class="wsit-text"><i class="ti ti-circle-dot"></i>Subcategory</span>
+                                </a>
+                            </li>
+                            <li class="wsit-item">
+                                <a href="{{ route('brands.index') }}" class="wsit-link">
+                                    <span class="wsit-text"><i class="ti ti-circle-dot"></i>Brand</span>
+                                </a>
+                            </li>
+                            <li class="wsit-item">
+                                <a href="{{ route('warehouses.index') }}" class="wsit-link">
+                                    <span class="wsit-text"><i class="ti ti-circle-dot"></i>Warehouse</span>
+                                </a>
+                            </li>
+                            <li class="wsit-item">
+                                <a href="{{ route('suppliers.index') }}" class="wsit-link">
+                                    <span class="wsit-text"><i class="ti ti-circle-dot"></i>Supplier</span>
                                 </a>
                             </li>
                         </ul>

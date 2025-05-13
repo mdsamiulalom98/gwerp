@@ -12,7 +12,7 @@
                 <div class="row align-items-center justify-content-between">
                     <div class="col-auto">
                         <div class="page-header-title">
-                        <h4 class="m-b-10">Award Manage</h4>
+                        <h4 class="m-b-10">Award Edit</h4>
                         </div>
                        <ul class="breadcrumb">
                           <li class="breadcrumb-item">

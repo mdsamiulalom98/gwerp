@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('trips', function (Blueprint $table) {
+        Schema::create('promotions', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('employee_id')->nullable();
-            $table->datetime('start_date');
-            $table->datetime('end_date');
-            $table->string('purpose_of_visit')->length(255);
-            $table->string('place_of_visit')->length(255);
+            $table->unsignedInteger('designation_id')->nullable();
+            $table->string(column: 'promotion_title')->nullable();
+            $table->dateTime(column: 'promotion_date')->nullable();
             $table->string('description')->length(255)->nullable();
             $table->timestamps();
         });
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('trips');
+        Schema::dropIfExists('promotions');
     }
 };

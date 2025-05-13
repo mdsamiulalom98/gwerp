@@ -8,82 +8,87 @@ use Illuminate\Support\Facades\File;
 use Brian2694\Toastr\Facades\Toastr;
 use Carbon\Carbon;
 use App\Models\Employee;
-use App\Models\Trip;
+use App\Models\Promotion;
+use App\Models\Designation;
 
-class TripController extends Controller
+class PromotionController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:trip-list|trip-create|trip-edit|trip-delete', ['only' => ['index', 'store']]);
-        $this->middleware('permission:trip-create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:trip-edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:trip-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:promotion-list|promotion-create|promotion-edit|promotion-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:promotion-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:promotion-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:promotion-delete', ['only' => ['destroy']]);
     }
+
     public function index(Request $request)
     {
-        $data = Trip::orderBy('id', 'asc');
+        $data = Promotion::orderBy('id', 'asc');
         if ($request->ajax()) {
             return datatables()->of($data)
                 ->addColumn('employee', function ($row) {
                     return $row->employee->name ?? 'N/A';
                 })
-                ->addColumn('start_date', function ($row) {
-                    return $row->start_date ? Carbon::parse($row->start_date)->format('Y-m-d') : 'N/A';
+                ->addColumn('designation', function ($row) {
+                    return $row->designation->name ?? 'N/A';
                 })
-                ->addColumn('end_date', function ($row) {
-                    return $row->end_date ? Carbon::parse($row->end_date)->format('Y-m-d') : 'N/A';
+                ->addColumn('date', function ($row) {
+                    return $row->promotion_date ? Carbon::parse($row->promotion_date)->format('Y-m-d') : 'N/A';
                 })
                 ->addColumn('action', function ($row) {
-                    $editBtn = '<a class="edit_btn" href="' . route('trips.edit', $row->id) . '">
+                    $editBtn = '<a class="edit_btn" href="' . route('promotions.edit', $row->id) . '">
                                <i class="ti ti-pencil"></i>
                             </a>';
-                    $deleteBtn = '<form method="POST" action="' . route('trips.destroy') . '" class="delete_form" style="display:inline;">
+                    $deleteBtn = '<form method="POST" action="' . route('promotions.destroy') . '" class="delete_form" style="display:inline;">
                                   ' . csrf_field() . '
                                   <input type="hidden" name="id" value="' . $row->id . '">
                                   <button type="button" class="delete_btn"><i class="ti ti-trash"></i></button>
                                </form>';
                     return '<div class="action-buttons">' . $editBtn . ' ' . $deleteBtn . '</div>';
                 })
-                ->rawColumns(['status', 'action'])
+
+                ->rawColumns(['action'])
                 ->toJson();
         }
-        return view('backEnd.trip.index');
+        return view('backEnd.promotion.index');
     }
 
     public function create()
     {
         $employees = Employee::select('id', 'employee_id', 'name')->get();
-        return view('backEnd.trip.create', compact('employees'));
+        $designations = Designation::select('id', 'name')->get();
+        return view('backEnd.promotion.create', compact('employees', 'designations'));
     }
 
     public function store(Request $request)
     {
         $input = $request->all();
-        // return $input;
-        Trip::create($input);
+        Promotion::create($input);
+        $input['status'] = $request->status ?? 0;
         Toastr::success('Success', 'Data insert successfully');
-        return redirect()->route('trips.index');
+        return redirect()->route('promotions.index');
     }
 
     public function edit($id)
     {
-        $edit_data = Trip::findOrFail($id);
+        $edit_data = Promotion::findOrFail($id);
         $employees = Employee::select('id', 'employee_id', 'name')->get();
-        return view('backEnd.trip.edit', compact('edit_data', 'employees'));
+        $designations = Designation::select('id', 'name')->get();
+        return view('backEnd.promotion.edit', compact('edit_data', 'employees', 'designations'));
     }
 
     public function update(Request $request)
     {
-        $companypolicy = Trip::findOrFail($request->id);
+        $companypolicy = Promotion::findOrFail($request->id);
         $input = $request->all();
         $companypolicy->update($input);
         Toastr::success('Success', 'Data updatetd successfully');
-        return redirect()->route('trips.index');
+        return redirect()->route('promotions.index');
     }
 
     public function inactive(Request $request)
     {
-        $inactive = Trip::find($request->id);
+        $inactive = Promotion::find($request->id);
         $inactive->status = 0;
         $inactive->save();
         Toastr::success('Success', 'Data inactive successfully');
@@ -91,7 +96,7 @@ class TripController extends Controller
     }
     public function active(Request $request)
     {
-        $active = Trip::find($request->id);
+        $active = Promotion::find($request->id);
         $active->status = 1;
         $active->save();
         Toastr::success('Success', 'Data active successfully');
@@ -100,9 +105,10 @@ class TripController extends Controller
 
     public function destroy(Request $request)
     {
-        $delete_data = Trip::find($request->id);
+        $delete_data = Promotion::find($request->id);
         File::delete($delete_data->image);
         Toastr::success('Success', 'Data delete successfully');
         $delete_data->delete();
     }
+
 }
